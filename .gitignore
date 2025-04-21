@@ -1,0 +1,6 @@
+# Ignore virtual environment folder
+env/
+
+artifact_folder
+
+preprocess.ipynb
