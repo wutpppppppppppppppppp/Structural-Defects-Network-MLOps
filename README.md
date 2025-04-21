@@ -36,7 +36,9 @@ The artifact_folder/ is excluded from version control and will not be uploaded t
 
 ```kotlin
 Structural-Defects-Network-MLOps/
-├── preprocess.py
+├── Dataset             # Raw Data
+├── src/                
+│   └── preprocess.py/ 
 ├── requirements.txt
 ├── .gitignore
 ├── README.md
