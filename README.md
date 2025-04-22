@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ### 3. Run Preprocessing
 Run the preprocessing script before training or evaluation:
 ```bash
-python preprocess.py
+python src/preprocess.py
 ```
 
 
