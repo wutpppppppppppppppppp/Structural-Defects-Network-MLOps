@@ -1,6 +1,10 @@
 # Ignore virtual environment folder
 env/
+# Ignore Environment variables file 
+.env
 
 artifact_folder
 
 preprocess.ipynb
+
+logs
