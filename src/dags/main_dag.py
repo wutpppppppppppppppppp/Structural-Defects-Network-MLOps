@@ -5,7 +5,6 @@ import logging
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator, BranchPythonOperator
-from
 from airflow.models import Variable
 from datetime import datetime, timedelta
 
@@ -44,7 +43,6 @@ with DAG(
         task_id='check_new_data_from_cloudinary',
         python_callable=check_new_images,
         provide_context=True,  # optional depending on your version
-
     )
     
     retrieve_new_images_url = PythonOperator(
@@ -62,13 +60,16 @@ with DAG(
 
     train = PythonOperator(
         task_id='train_model',
-        python_callable=train_model
+        python_callable=train_model,
+        provide_context=True
     )
 
     log = PythonOperator(
         task_id='log_model',
-        python_callable=log_model
+        python_callable=log_model,
+        provide_context=True
     )
+
 
     end = DummyOperator(task_id='end', trigger_rule='none_failed_min_one_success')
 

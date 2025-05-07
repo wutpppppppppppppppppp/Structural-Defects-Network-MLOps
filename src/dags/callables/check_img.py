@@ -37,4 +37,3 @@ def check_new_images(**kwargs):
         return 's3_to_csv'
     else:
         return 'stop_no_data'
-
