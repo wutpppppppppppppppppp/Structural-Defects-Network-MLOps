@@ -1,7 +1,11 @@
 # Ignore virtual environment folder
 env/
 # Ignore Environment variables file 
+.venv
+
 .env
+
+*.pyc
 
 artifact_folder
 

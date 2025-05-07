@@ -3,9 +3,8 @@ import cloudinary
 import cloudinary.api
 from airflow.models import Variable
 from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
+import logging
+from dateutil import parser
 
 # Configure your Cloudinary
 cloudinary.config(
@@ -20,20 +19,22 @@ def check_new_images(**kwargs):
     last_retrain_str = Variable.get("last_retrain_time", default_var="2023-01-01T00:00:00")
     last_retrain_time = datetime.fromisoformat(last_retrain_str)
     
-    # Fetch list of resources from Cloudinary
-    response = cloudinary.api.resources(type="upload", prefix="Decks/", max_results=500)
+    # Fetch list of resources from Cloudinary's 'users/' folder
+    response = cloudinary.api.resources(type="upload", prefix="users/", max_results=500)
     resources = response['resources']
     
     # Filter only images uploaded after last retrain
     new_images = [
         img for img in resources 
-        if datetime.fromtimestamp(img['created_at']) > last_retrain_time
+        if parser.isoparse(img['created_at']) > last_retrain_time
     ]
     
-    print(f"Found {len(new_images)} new images after {last_retrain_time}.")
+    logger = logging.getLogger(__name__)
+    logger.info(f"Found {len(new_images)} new images in 'users/' after {last_retrain_time}.")
+    # print(f"Found {len(new_images)} new images in 'users/' after {last_retrain_time}.")
 
-    if len(new_images) >= 50:
-        return 'merge_datasets'  # The next task id if enough data
+    if len(new_images) >= 10:
+        return 's3_to_csv'
     else:
-        return 'stop_no_data'   # DummyOperator if not enough
+        return 'stop_no_data'
 
