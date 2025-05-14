@@ -76,4 +76,5 @@ with DAG(
     # DAG flow with branching
     start >> check_data
     check_data >> retrieve_new_images_url >> preprocess >> train >> log >> end
+    # check_data >> retrieve_new_images_url >> preprocess >> [ResNet_train, MobileNet_train] >> log >> end
     check_data >> skip_training >> log >> end
